@@ -1,5 +1,4 @@
 G_giturl = "git@github.com:diserere/rust-test-coverage.git"
-//G_gitcred = "LaninSSHgit"
 G_gitcred = "diserere_on_github"
 G_container = "alanin/container:latest"
 //G_container = "rust"
@@ -62,7 +61,7 @@ pipeline {
                     C_GITURL = sh (script: 'echo ${GIT_URL}',returnStdout: true).trim()
                     C_GITCOMMIT = sh (script: 'echo ${GIT_COMMIT}',returnStdout: true).trim()
 
-		    
+            
                     sh 'echo "Try to find cargo..."'
                     sh 'which cargo'
                 }
@@ -70,29 +69,27 @@ pipeline {
         }
 
         stage('Build') {
-				stage('Build project') {
-				steps {Cargo86_64build('no32')}
-			}
-            post {
-                success {script{G_buildstatus = "success"}}
-                failure {script{G_buildstatus = "failure"}}
+            steps {
+                Cargo86_64build('no32')
             }
+        }
+        post {
+            success {script{G_buildstatus = "success"}}
+            failure {script{G_buildstatus = "failure"}}
         }
 
         stage('Test') {
-			stage('Test project') {
-				steps {
-					dir('.') {
-						Cargo86_64test('no32')
-//						archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
-//						archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
-					}
-				}
-			}
-            post {
-                success {script{G_teststatus = "success"}}
-                failure {script{G_teststatus = "failure"}}
+            steps {
+                dir('.') {
+                    Cargo86_64test('no32')
+//                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
+//                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
+                }
             }
+        }
+        post {
+            success {script{G_teststatus = "success"}}
+            failure {script{G_teststatus = "failure"}}
         }
 
         stage('RustFmt') {
