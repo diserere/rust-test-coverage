@@ -32,7 +32,7 @@ pipeline {
     agent {
         docker {
             image G_container
-//            args '--network proxy_nw'
+            args '--network proxy_nw'
         }
     }
     environment {
