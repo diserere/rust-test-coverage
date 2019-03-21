@@ -1,0 +1,13 @@
+[package]
+name = "test_cov_kcov"
+version = "0.1.0"
+authors = ["Diserere <diserere@ya.ru>"]
+edition = "2018"
+
+[dependencies]
+
+[features]
+pass=[]
+detailed=[]
+nodead=[]
+main=[]
