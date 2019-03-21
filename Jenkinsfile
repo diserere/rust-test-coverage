@@ -72,10 +72,10 @@ pipeline {
             steps {
                 Cargo86_64build('no32')
             }
-        }
-        post {
-            success {script{G_buildstatus = "success"}}
-            failure {script{G_buildstatus = "failure"}}
+            post {
+                success {script{G_buildstatus = "success"}}
+                failure {script{G_buildstatus = "failure"}}
+            }
         }
 
         stage('Test') {
@@ -86,10 +86,10 @@ pipeline {
 //                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
                 }
             }
-        }
-        post {
-            success {script{G_teststatus = "success"}}
-            failure {script{G_teststatus = "failure"}}
+            post {
+                success {script{G_teststatus = "success"}}
+                failure {script{G_teststatus = "failure"}}
+            }
         }
 
         stage('RustFmt') {
