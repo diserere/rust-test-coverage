@@ -70,35 +70,9 @@ pipeline {
         }
 
         stage('Build') {
-            parallel {
-                stage('Build TVM') {
-                    steps {
-                        dir('tvm') {Cargo86_64build('')}
-                    }
-                }
-
-                stage('Build ton_block') {
-                    steps {
-                        dir('ton_block') {Cargo86_64build('')}
-                    }
-                }
-                
-                stage('Build poa') {
-                    steps {
-                        dir('poa') {Cargo86_64build('no32')}
-                    }
-                }
-
-                stage('Build static abi-lib') {
-                    steps {
-                        dir('abi-lib/static') {Cargo86_64build('')}
-                    }
-                }
-
-                stage('Build TON-Node & Utils') {
-                    steps {Cargo86_64build('')}
-                }
-            }
+				stage('Build project') {
+				steps {Cargo86_64build('no32')}
+			}
             post {
                 success {script{G_buildstatus = "success"}}
                 failure {script{G_buildstatus = "failure"}}
@@ -106,43 +80,15 @@ pipeline {
         }
 
         stage('Test') {
-            parallel {
-                stage('Test TVM') {
-                    steps {
-                        dir('tvm') {
-                            Cargo86_64test('')
-                            archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
-                            archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
-                        }
-                    }
-                }
-
-                stage('Test ton_block') {
-                    steps {
-                        dir('ton_block') {
-                            Cargo86_64test('')
-                            archiveArtifacts artifacts: 'target/release/libton_block.so', onlyIfSuccessful: true
-                            archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libton_block.so', onlyIfSuccessful: true
-                        }
-                    }
-                }
-                
-                stage('Test poa') {
-                    steps {
-                        dir('poa') {Cargo86_64test('no32')}
-                    }
-                }
-
-                stage('Test static abi-lib') {
-                    steps {
-                        dir('abi-lib/static') {Cargo86_64test('')}
-                    }
-                }
-                
-                stage('Test TON-Node & Utils') {
-                    steps {Cargo86_64test('')}
-                }
-            }
+			stage('Test project') {
+				steps {
+					dir('.') {
+						Cargo86_64test('no32')
+//						archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
+//						archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
+					}
+				}
+			}
             post {
                 success {script{G_teststatus = "success"}}
                 failure {script{G_teststatus = "failure"}}
