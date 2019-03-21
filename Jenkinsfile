@@ -1,7 +1,8 @@
 G_giturl = "git@github.com:diserere/rust-test-coverage.git"
 //G_gitcred = "LaninSSHgit"
-//G_container = "alanin/container:latest"
-G_container = "rust"
+G_gitcred = "diserere_on_github"
+G_container = "alanin/container:latest"
+//G_container = "rust"
 G_buildstatus = "NotSet"
 G_teststatus = "NotSet"
 G_rustfmtstatus = "NotSet"
@@ -12,15 +13,15 @@ C_TEXT = "NotSet"
 
 def Cargo86_64build(bits) {
     sh 'cargo clean'
-    sh 'cargo build --release --features ci_run'
+    sh 'cargo build'
     if (bits != "no32") {
-        sh 'OPENSSL_DIR="/ssl/" cargo build --release --features ci_run --target=i686-unknown-linux-gnu'
+        sh 'OPENSSL_DIR="/ssl/" cargo build --target=i686-unknown-linux-gnu'
     }
 }
 def Cargo86_64test(bits) {
-    sh 'cargo test --release --features ci_run'
+    sh 'cargo test'
     if (bits != "no32") {
-        sh 'OPENSSL_DIR="/ssl/" cargo test --release --features ci_run --target=i686-unknown-linux-gnu'
+        sh 'OPENSSL_DIR="/ssl/" cargo test --target=i686-unknown-linux-gnu'
     }
 }
 
