@@ -47,8 +47,8 @@ pipeline {
     agent {
         docker {
             image G_container
-//            args '--network proxy_nw'
-            args '--network proxy_nw -u root "apt update && apt install libcurl4-openssl-dev libelf-dev libdw-dev cmake gcc binutils-dev libiberty-dev zlib1g-dev pkg-config jq"'
+            args '--network proxy_nw'
+//            args '--network proxy_nw -u root "apt update && apt install libcurl4-openssl-dev libelf-dev libdw-dev cmake gcc binutils-dev libiberty-dev zlib1g-dev pkg-config jq"'
 //            args '--network proxy_nw -u root "apt update && apt install cmake g++ pkg-config jq libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev"'
         }
     }
