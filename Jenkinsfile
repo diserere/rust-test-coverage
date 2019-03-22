@@ -11,7 +11,8 @@ C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
 //FEATURES_LIST = nodead main detailed
-FEATURES_LIST = 'nodead '
+//FEATURES_LIST = 'nodead '
+FEATURES_LIST = 'detailed '
 // build_features = "--features 'nodead main detailed' "
 build_features = "--features '${FEATURES_LIST}' "
 
