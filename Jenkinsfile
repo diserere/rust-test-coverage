@@ -1,7 +1,7 @@
 G_giturl = "git@github.com:diserere/rust-test-coverage.git"
 G_gitcred = "diserere_on_github"
-G_container = "alanin/container:latest"
-//G_container = "rust"
+//G_container = "alanin/container:latest"
+G_container = "container-kcov"
 G_buildstatus = "NotSet"
 G_teststatus = "NotSet"
 G_rustfmtstatus = "NotSet"
@@ -48,8 +48,6 @@ pipeline {
         docker {
             image G_container
             args '--network proxy_nw --security-opt seccomp=unconfined'
-//            args '--network proxy_nw -u root "apt update && apt install libcurl4-openssl-dev libelf-dev libdw-dev cmake gcc binutils-dev libiberty-dev zlib1g-dev pkg-config jq"'
-//            args '--network proxy_nw -u root "apt update && apt install cmake g++ pkg-config jq libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev"'
         }
     }
     environment {
