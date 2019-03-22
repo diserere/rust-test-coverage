@@ -32,10 +32,10 @@ def Cargo86_64test(bits) {
 
 def Cargo86_64cov(bits) {
     sh 'cargo clean'
-    sh "cargo kcov ${build_features}"
+    sh 'cargo kcov ${build_features}'
 //    sh "cargo kcov --features 'nodead main detailed' "
     if (bits != "no32") {
-        sh 'OPENSSL_DIR="/ssl/" cargo build --target=i686-unknown-linux-gnu --features 'nodead main detailed"'
+        sh 'OPENSSL_DIR="/ssl/" cargo build --target=i686-unknown-linux-gnu --features "nodead main detailed"'
     }
 }
 
