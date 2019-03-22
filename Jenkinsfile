@@ -111,6 +111,7 @@ pipeline {
         stage('Test coverage') {
             steps {
                 dir('.') {
+                    input message: 'Whahaha'
                     Cargo86_64cov('no32')
 //                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
 //                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
