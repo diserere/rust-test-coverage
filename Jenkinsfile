@@ -161,8 +161,17 @@ pipeline {
                 + "Tests: **" + G_teststatus + "**" + "\n" \
                 + "Rustfmt: **" + G_rustfmtstatus + "**"
                 discordSend description: DiscordDescription, footer: DiscordFooter, link: JOB_DISPLAY_URL, successful: currentBuild.resultIsBetterOrEqualTo('SUCCESS'), title: DiscordTitle, webhookURL: DiscordURL
-
             }
+            step([  $class: 'CoberturaPublisher', 
+                    autoUpdateHealth: false, 
+                    autoUpdateStability: false, 
+                    coberturaReportFile: '**/coverage.xml', 
+                    failUnhealthy: false, 
+                    failUnstable: false, 
+                    maxNumberOfBuilds: 0, 
+                    onlyStable: false, 
+                    sourceEncoding: 'ASCII', 
+                    zoomCoverageChart: false])
         }
 
     }
