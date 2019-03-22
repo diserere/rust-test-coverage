@@ -31,7 +31,7 @@ fn main() {
 
 
 #[cfg(test)]
-mod tests {
+mod coverage_tests {
 	use super::*;
 	
 	#[test]

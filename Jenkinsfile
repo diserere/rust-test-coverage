@@ -10,6 +10,10 @@ C_COMMITER = "NotSet"
 C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
+FEATURES_LIST = nodead main detailed
+// build_features = "--features 'nodead main detailed' "
+build_features = "--features '${FEATURES_LIST}' "
+
 def Cargo86_64build(bits) {
     sh 'cargo clean'
     sh 'cargo build'
@@ -17,10 +21,19 @@ def Cargo86_64build(bits) {
         sh 'OPENSSL_DIR="/ssl/" cargo build --target=i686-unknown-linux-gnu'
     }
 }
+
 def Cargo86_64test(bits) {
     sh 'cargo test'
     if (bits != "no32") {
         sh 'OPENSSL_DIR="/ssl/" cargo test --target=i686-unknown-linux-gnu'
+    }
+}
+
+def Cargo86_64cov(bits) {
+    sh 'cargo clean'
+    sh "cargo kcov ${build_features}"
+    if (bits != "no32") {
+        sh 'OPENSSL_DIR="/ssl/" cargo build --target=i686-unknown-linux-gnu'
     }
 }
 
@@ -83,6 +96,20 @@ pipeline {
             steps {
                 dir('.') {
                     Cargo86_64test('no32')
+//                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
+//                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
+                }
+            }
+            post {
+                success {script{G_teststatus = "success"}}
+                failure {script{G_teststatus = "failure"}}
+            }
+        }
+
+        stage('Test coverage') {
+            steps {
+                dir('.') {
+                    Cargo86_64cov('no32')
 //                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
 //                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
                 }
