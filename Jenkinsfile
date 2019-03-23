@@ -182,7 +182,7 @@ pipeline {
 //                keepAll: true, 
                 reportDir: 'target/cov/', 
                 reportFiles: 'index.html', 
-                reportName: 'HTML Report', 
+                reportName: 'Last kcov report', 
                 reportTitles: ''])
         }
 
