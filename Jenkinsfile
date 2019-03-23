@@ -178,7 +178,8 @@ pipeline {
             )
             publishHTML([allowMissing: false, 
                 alwaysLinkToLastBuild: false, 
-                keepAll: false, 
+//                keepAll: false, 
+                keepAll: true, 
                 reportDir: 'target/cov/', 
                 reportFiles: 'index.html', 
                 reportName: 'HTML Report', 
