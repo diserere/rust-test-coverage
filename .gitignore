@@ -2,3 +2,4 @@
 **/*.rs.bk
 /*report*
 cobertura.xml
+**/*.swp
