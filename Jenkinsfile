@@ -176,14 +176,16 @@ pipeline {
                 sourceEncoding: 'ASCII', 
                 zoomCoverageChart: false]
             )
-            publishHTML([allowMissing: false, 
+            publishHTML([
+		allowMissing: false, 
                 alwaysLinkToLastBuild: false, 
-                keepAll: false, 
-//                keepAll: true, 
+//                keepAll: false, 
+                keepAll: true, 
                 reportDir: 'target/cov/', 
                 reportFiles: 'index.html', 
                 reportName: 'Last kcov report', 
-                reportTitles: ''])
+                reportTitles: ''
+		])
         }
 
     }
