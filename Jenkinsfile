@@ -11,8 +11,8 @@ C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
 //FEATURES_LIST = nodead main detailed
-//FEATURES_LIST = 'nodead '
-FEATURES_LIST = 'main '
+FEATURES_LIST = 'nodead '
+//FEATURES_LIST = 'main '
 // build_features = "--features 'nodead main detailed' "
 build_features = "--features '${FEATURES_LIST}' "
 
@@ -178,8 +178,8 @@ pipeline {
             )
             publishHTML([allowMissing: false, 
                 alwaysLinkToLastBuild: false, 
-//                keepAll: false, 
-                keepAll: true, 
+                keepAll: false, 
+//                keepAll: true, 
                 reportDir: 'target/cov/', 
                 reportFiles: 'index.html', 
                 reportName: 'HTML Report', 
