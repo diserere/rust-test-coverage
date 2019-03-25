@@ -1,7 +1,7 @@
 G_giturl = "git@github.com:diserere/rust-test-coverage.git"
 G_gitcred = "diserere_on_github"
 G_container = "alanin/container:latest"
-//G_container = "container-kcov"
+//G_container = "container-kcov:optimized"
 G_buildstatus = "NotSet"
 G_teststatus = "NotSet"
 G_rustfmtstatus = "NotSet"
@@ -11,8 +11,8 @@ C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
 //FEATURES_LIST = nodead main detailed
-FEATURES_LIST = ''
-//FEATURES_LIST = 'nodead '
+//FEATURES_LIST = ''
+FEATURES_LIST = 'nodead '
 //FEATURES_LIST = 'detailed '
 //FEATURES_LIST = 'main '
 // build_features = "--features 'nodead main detailed' "
@@ -112,20 +112,22 @@ pipeline {
             }
         }
 
-//        stage('Test coverage') {
-//            steps {
-//                dir('.') {
-////                    input message: 'Whahaha'
-//                    Cargo86_64cov('no32')
-////                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
-////                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
-//                }
-//            }
-//            post {
-//                success {script{G_teststatus = "success"}}
-//                failure {script{G_teststatus = "failure"}}
-//            }
-//        }
+//*
+        stage('Test coverage') {
+            steps {
+                dir('.') {
+                    input message: 'Whahaha'
+                    Cargo86_64cov('no32')
+//                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
+//                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
+                }
+            }
+            post {
+                success {script{G_teststatus = "success"}}
+                failure {script{G_teststatus = "failure"}}
+            }
+        }
+//*/
 
         stage('RustFmt') {
             steps {
@@ -166,12 +168,12 @@ pipeline {
                 + "Rustfmt: **" + G_rustfmtstatus + "**"
                 discordSend description: DiscordDescription, footer: DiscordFooter, link: JOB_DISPLAY_URL, successful: currentBuild.resultIsBetterOrEqualTo('SUCCESS'), title: DiscordTitle, webhookURL: DiscordURL
             }
+//*
             step([
                 $class: 'CoberturaPublisher', 
                 autoUpdateHealth: false, 
                 autoUpdateStability: false, 
                 coberturaReportFile: 'target/cov/kcov-merged/cobertura.xml', 
-//                coberturaReportFile: '**/coverage.xml', 
                 failUnhealthy: false, 
                 failUnstable: false, 
                 maxNumberOfBuilds: 0, 
@@ -179,6 +181,7 @@ pipeline {
                 sourceEncoding: 'ASCII', 
                 zoomCoverageChart: false]
             )
+//*/
             publishHTML([
 		allowMissing: false, 
                 alwaysLinkToLastBuild: false, 
