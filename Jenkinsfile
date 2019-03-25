@@ -123,7 +123,22 @@ pipeline {
                 }
             }
             post {
-                success {script{G_teststatus = "success"}}
+                success {
+		    script{G_teststatus = "success"}
+            	    step([
+	                $class: 'CoberturaPublisher', 
+	                autoUpdateHealth: false, 
+	                autoUpdateStability: false, 
+	                coberturaReportFile: 'target/cov/kcov-merged/cobertura.xml', 
+	                failUnhealthy: false, 
+	                failUnstable: false, 
+	                maxNumberOfBuilds: 0, 
+	                onlyStable: false, 
+	                sourceEncoding: 'ASCII', 
+	                zoomCoverageChart: false]
+	            )
+
+		}
                 failure {script{G_teststatus = "failure"}}
             }
         }
