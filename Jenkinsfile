@@ -1,7 +1,7 @@
 G_giturl = "git@github.com:diserere/rust-test-coverage.git"
 G_gitcred = "diserere_on_github"
-//G_container = "alanin/container:latest"
-G_container = "container-kcov"
+G_container = "alanin/container:latest"
+//G_container = "container-kcov"
 G_buildstatus = "NotSet"
 G_teststatus = "NotSet"
 G_rustfmtstatus = "NotSet"
@@ -89,6 +89,7 @@ pipeline {
 
         stage('Build') {
             steps {
+                input message: 'Whahaha'
                 Cargo86_64build('no32')
             }
             post {
