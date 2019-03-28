@@ -119,37 +119,34 @@ pipeline {
                 dir('.') {
                     input message: 'Whahaha'
                     Cargo86_64cov('no32')
-//                    archiveArtifacts artifacts: 'target/release/libtvm.so', onlyIfSuccessful: true
-//                    archiveArtifacts artifacts: 'target/i686-unknown-linux-gnu/release/libtvm.so', onlyIfSuccessful: true
                 }
             }
             post {
                 success {
-		    script{G_teststatus = "success"}
-            	    step([
-	                $class: 'CoberturaPublisher', 
-	                autoUpdateHealth: false, 
-	                autoUpdateStability: false, 
-	                coberturaReportFile: 'target/cov/kcov-merged/cobertura.xml', 
-	                failUnhealthy: false, 
-	                failUnstable: false, 
-	                maxNumberOfBuilds: 0, 
-	                onlyStable: false, 
-	                sourceEncoding: 'ASCII', 
-	                zoomCoverageChart: false
-	            ])
-	            publishHTML([
-			allowMissing: false, 
-	                alwaysLinkToLastBuild: false, 
-		        keepAll: false, 
-	                keepAll: true, 
-	                reportDir: 'target/cov/', 
-	                reportFiles: 'index.html', 
-	                reportName: 'Last kcov report', 
-	                reportTitles: ''
-		    ])
-
-		}
+                    script{G_teststatus = "success"}
+                    step([
+                        $class: 'CoberturaPublisher', 
+                        autoUpdateHealth: false, 
+                        autoUpdateStability: false, 
+                        coberturaReportFile: 'target/cov/kcov-merged/cobertura.xml', 
+                        failUnhealthy: false, 
+                        failUnstable: false, 
+                        maxNumberOfBuilds: 0, 
+                        onlyStable: false, 
+                        sourceEncoding: 'ASCII', 
+                        zoomCoverageChart: false
+                    ])
+                    publishHTML([
+                        allowMissing: false, 
+                        alwaysLinkToLastBuild: false, 
+                        keepAll: false, 
+                        keepAll: true, 
+                        reportDir: 'target/cov/', 
+                        reportFiles: 'index.html', 
+                        reportName: 'Last kcov report', 
+                        reportTitles: 'Code coverage report (by kcov) for ${display_name} build ${BUILD_NUMBER} triggered by ${C_COMMITER} commit ${C_HASH} in ${JOB_NAME}'
+                    ])
+                }
                 failure {script{G_teststatus = "failure"}}
             }
         }
@@ -208,7 +205,7 @@ pipeline {
                 zoomCoverageChart: false]
             )
             publishHTML([
-		allowMissing: false, 
+        allowMissing: false, 
                 alwaysLinkToLastBuild: false, 
 //                keepAll: false, 
                 keepAll: true, 
@@ -216,7 +213,7 @@ pipeline {
                 reportFiles: 'index.html', 
                 reportName: 'Last kcov report', 
                 reportTitles: ''
-		])
+        ])
 //*/
         }
 
