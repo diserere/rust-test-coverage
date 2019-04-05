@@ -49,7 +49,7 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 
 //def pwdOut = pwd()
 echo 'test message outside of ppl'
-echo "some var: ${pwdOut}"
+echo "some var: ${env.WORKSPACE}"
 
 pipeline {
     environment {
