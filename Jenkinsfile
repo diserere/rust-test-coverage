@@ -47,7 +47,7 @@ def Cargo86_64cov(bits) {
 //DiscordURL = "https://discordapp.com/api/webhooks/496992026932543489/4exQIw18D4U_4T0H76bS3Voui4SyD7yCQzLP9IRQHKpwGRJK1-IFnyZLyYzDmcBKFTJw"
 DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9mL1dTvDelyzPylSHZaciNqHi9m3AyhkHX9XAN5wUbp7QHOUkqqg_34FKw"
 
-def pwdOut = pwd()
+//def pwdOut = pwd()
 echo 'test message outside of ppl'
 echo "some var: ${pwdOut}"
 
