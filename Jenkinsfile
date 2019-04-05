@@ -51,7 +51,8 @@ pipeline {
     agent {
         docker {
             image G_container
-            args '--network proxy_nw --security-opt seccomp=unconfined'
+//            args '--network proxy_nw --security-opt seccomp=unconfined'
+            args '--network proxy_nw --security-opt seccomp=default_allow_personality.json'
         }
     }
     environment {
