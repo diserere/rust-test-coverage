@@ -53,7 +53,7 @@ echo "some var: ${env.WORKSPACE}"
 
 pipeline {
     environment {
-        def workspace = pwd()
+        workspace = pwd()
         RUSTFMT_STATUS = "NotSet"
     }
     agent {
