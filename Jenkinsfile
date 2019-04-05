@@ -52,6 +52,7 @@ echo 'test message outside of ppl'
 pipeline {
     environment {
         def myvar = pwd()
+        RUSTFMT_STATUS = "NotSet"
     }
     agent {
         docker {
@@ -64,9 +65,9 @@ pipeline {
             args "--network proxy_nw --security-opt seccomp=${workspace}/default_allow_personality.json"
         }
     }
-    environment {
+/*    environment {
         RUSTFMT_STATUS = "NotSet"
-    }
+    }*/
     options {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')
         disableConcurrentBuilds()
