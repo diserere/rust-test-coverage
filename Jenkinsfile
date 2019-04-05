@@ -50,13 +50,13 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 pipeline {
     agent {
         docker {
-//            def workspace = pwd()
+            def workspace = pwd()
 //            echo ${workspace}
             image G_container
 //            args '--network proxy_nw --security-opt seccomp=unconfined'
 //            args '--network proxy_nw --security-opt seccomp=/tmp/default_allow_personality.json'
 //            args '--network proxy_nw --security-opt seccomp=./default_allow_personality.json'
-            args "--network proxy_nw --security-opt seccomp=${env.WORKSPACE}/default_allow_personality.json"
+            args "--network proxy_nw --security-opt seccomp=${workspace}/default_allow_personality.json"
         }
     }
     environment {
