@@ -38,6 +38,7 @@ def Cargo86_64cov(bits) {
     sh 'cargo clean'
     sh "cargo kcov ${build_features}"
 //    sh "cargo kcov --features 'nodead main detailed' "
+
     if (bits != "no32") {
         sh 'OPENSSL_DIR="/ssl/" cargo build --target=i686-unknown-linux-gnu --features "nodead main detailed"'
     }
@@ -49,7 +50,8 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 
 //def pwdOut = pwd()
 echo 'test message outside of ppl'
-echo "some var: ${env.WORKSPACE}"
+echo "echo PWD: ${PWD}"
+sh ( script: 'echo "sh_echo PWD: ${PWD}"', returnStdout: true )
 
 pipeline {
     environment {
