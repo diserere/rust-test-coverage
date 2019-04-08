@@ -50,9 +50,9 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 
 //def pwdOut = pwd()
 echo 'test message outside of ppl'
-//echo "echo PWD: ${PWD}"
-myVar = sh (script: 'echo "sh_echo PWD: ${PWD}"', returnStdout: true).trim()
-echo "${myVar}"
+echo "echo WORKSPACE: ${WORKSPACE}"
+//myVar = sh (script: 'echo "sh_echo PWD: ${PWD}"', returnStdout: true).trim()
+//echo "${myVar}"
 
 pipeline {
     environment {
@@ -67,7 +67,7 @@ pipeline {
 //            args '--network proxy_nw --security-opt seccomp=unconfined'
 //            args '--network proxy_nw --security-opt seccomp=/tmp/default_allow_personality.json'
 //            args '--network proxy_nw --security-opt seccomp=./default_allow_personality.json'
-            args "--network proxy_nw --security-opt seccomp=${workspace}/default_allow_personality.json"
+            args "--network proxy_nw --security-opt seccomp=${WORKSPACE}/default_allow_personality.json"
         }
     }
 /*    environment {
