@@ -50,7 +50,7 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 
 //def pwdOut = pwd()
 echo 'test message outside of ppl'
-echo "echo WORKSPACE: ${WORKSPACE}"
+//echo "echo WORKSPACE: ${WORKSPACE}"
 //myVar = sh (script: 'echo "sh_echo PWD: ${PWD}"', returnStdout: true).trim()
 //echo "${myVar}"
 
