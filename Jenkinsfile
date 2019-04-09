@@ -67,7 +67,8 @@ pipeline {
 //            args '--network proxy_nw --security-opt seccomp=unconfined'
 //            args '--network proxy_nw --security-opt seccomp=/tmp/default_allow_personality.json'
 //            args '--network proxy_nw --security-opt seccomp=./default_allow_personality.json'
-            args "--network proxy_nw --security-opt seccomp=${WORKSPACE}/default_allow_personality.json"
+//            args "--network proxy_nw --security-opt seccomp=${WORKSPACE}/default_allow_personality.json"
+            args '--network proxy_nw --security-opt seccomp=${WORKSPACE}/default_allow_personality.json'
         }
     }
 /*    environment {
