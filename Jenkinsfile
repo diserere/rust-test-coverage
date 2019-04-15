@@ -90,7 +90,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                input message: 'Whahaha'
+//                input message: 'Whahaha'
                 Cargo86_64build('no32')
             }
             post {
@@ -117,7 +117,7 @@ pipeline {
         stage('Test coverage') {
             steps {
                 dir('.') {
-                    input message: 'Whahaha'
+//                    input message: 'Whahaha'
                     Cargo86_64cov('no32')
                 }
             }
