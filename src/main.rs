@@ -37,6 +37,7 @@ fn main() {
 
 #[cfg(test)]
 mod main_tests {
+use test_cov_kcov::*;
 	
 	#[test]
 	#[cfg(feature="pass")]
