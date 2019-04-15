@@ -20,3 +20,10 @@ pub fn say_about(n: i32, eq_const: i32) {
         println!("Oops! equal {}: {} :))", eq_const, n)
 }
 
+#[test]
+fn lib_test_say_lt() {
+    say_lt(2,22);
+    say_lt(22,2);
+}
+
+

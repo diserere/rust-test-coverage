@@ -1,18 +1,11 @@
-use test_cov_kcov as myMain;
-
-//extern crate test_cov_kcov;
-//extern crate main;
-//use test_cov_kcov;
+extern crate test_cov_kcov;
 
 #[cfg(test)]
-//mod coverage_tests {
 mod tests {
-//    use super::*;
+    use test_cov_kcov::*;
 
-//#[macro_use]
-//extern crate test_cov_kcov;
-//use test_cov_kcov::*;
-//use test_cov_kcov;
+//    #[macro_use]
+//    use test_cov_kcov;
 
     #[test]
 //    #[cfg(feature="pass")]
@@ -23,7 +16,14 @@ mod tests {
     #[test]
 //    #[cfg(feature="detailed")]
     fn test_say_about_less() {
-        myMain::say_about(2,3);
+        say_about(2,3);
+    }
+    #[test]
+    #[should_panic]
+    #[ignore]
+    fn lib_test_say_lt() {
+//        say_lt(2,22);
+//        say_lt(22,2);
     }
 }
 

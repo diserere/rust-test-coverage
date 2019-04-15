@@ -21,7 +21,8 @@ pub fn say_about(n: i32, eq_const: i32) {
 	println!("Oops! equal {}: {} :))", eq_const, n)
 }
 */
-use lib;
+
+use test_cov_kcov::*;
 
 fn main() {
     println!("Hello, world!");
@@ -35,8 +36,7 @@ fn main() {
 
 
 #[cfg(test)]
-mod coverage_tests {
-	use super::*;
+mod main_tests {
 	
 	#[test]
 	#[cfg(feature="pass")]
