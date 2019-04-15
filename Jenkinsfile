@@ -115,6 +115,9 @@ pipeline {
 
 //*
         stage('Test coverage') {
+            when {
+                triggeredBy "TimerTrigger"
+            }
             steps {
                 dir('.') {
 //                    input message: 'Whahaha'
