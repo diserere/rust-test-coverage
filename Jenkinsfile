@@ -51,7 +51,11 @@ pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
 //    triggers { cron('H/5 * * * *') }
-    triggers { cron('TZ=Europe/Moscow H/5 * * * *') }
+//    triggers { cron('TZ=Europe/Moscow\n H/5 * * * *') }
+    triggers {cron '''
+        TZ=Europe/Moscow
+        H/5 * * * *
+    '''}
 
     agent {
         docker {
