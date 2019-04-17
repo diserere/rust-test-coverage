@@ -50,7 +50,8 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
-    triggers { cron('H/5 * * * *') }
+//    triggers { cron('H/5 * * * *') }
+    triggers { pollSCM('H/10 * * * *') }
 //    triggers { cron('TZ=Europe/Moscow\n H/5 * * * *') }
 //    triggers {cron '''
 //        TZ=Europe/Moscow
