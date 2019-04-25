@@ -174,6 +174,7 @@ pipeline {
                     script {
                         C_TEXT = "Weekly Build: " + C_TEXT
                         currentBuild.setDescription(C_TEXT)
+                        echo C_TEXT
                     }
                     Cargo86_64cov('no32')
                 }
