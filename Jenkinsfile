@@ -101,7 +101,7 @@ pipeline {
                     echo "Time diff: " + (currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis)
                     
                     echo "CurrBuildCause: " + currentBuild.getBuildCauses().toString()
-                    echo "CurrBuildCauseFiltered: " + currentBuild.getBuildCauses("hudson.triggers.TimerTrigger$TimerTriggerCause").toString()
+                    echo "CurrBuildCauseFiltered: " + currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').toString()
                     
                     echo "CurrBuildDisplayName: " + currentBuild.displayName.toString()
                     echo "CurrBuildDescription: " + currentBuild.description.toString()
