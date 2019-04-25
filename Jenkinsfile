@@ -51,7 +51,8 @@ pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
 //    triggers { cron('H/5 * * * *') }
-    triggers { pollSCM('H/10 * * * *') }
+    triggers { cron('H/10 * * * *') }
+    //~ triggers { pollSCM('H/10 * * * *') }
 //    triggers { cron('TZ=Europe/Moscow\n H/5 * * * *') }
 //    triggers {cron '''
 //        TZ=Europe/Moscow
@@ -90,8 +91,26 @@ pipeline {
                     C_PROJECT = G_giturl.substring(15,G_giturl.length()-4)
                     C_GITURL = sh (script: 'echo ${GIT_URL}',returnStdout: true).trim()
                     C_GITCOMMIT = sh (script: 'echo ${GIT_COMMIT}',returnStdout: true).trim()
+                    
+                    echo "prevBuildRes: " + currentBuild.getPreviousBuild().result
+                    echo "prevBuildTm: " + currentBuild.getPreviousBuild().timeInMillis.toString()
+                    echo "currentBuildTm: " + currentBuild.timeInMillis.toString()
+                    echo "Time diff: " + (currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis)
 
-            
+                    weeklyBuildEnabled = false;
+                    if (
+                        currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
+                        currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis < 600000 
+                        ) {
+                            weeklyBuildEnabled = true
+                        }
+                    
+                    echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+
+                    //C_descr = "Nightly build: " + currentBuild.description.toString()
+                    //echo C_descr
+                    //currentBuild.getPreviousBuild().getDescription()
+
                     sh 'echo "Try to find cargo..."'
                     sh 'which cargo'
                 }
@@ -125,9 +144,19 @@ pipeline {
 
 //*
         stage('Test coverage') {
+
+            //~ when {
+                //~ triggeredBy "TimerTrigger"
+            //~ }
+
             when {
-                triggeredBy "TimerTrigger"
+                allOf {
+                    triggeredBy 'TimerTrigger'
+                    environment name: 'weeklyBuildEnabled', value: 'true'
+                }
             }
+
+            
             steps {
                 dir('.') {
 //                    input message: 'Whahaha'
