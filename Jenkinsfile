@@ -96,6 +96,11 @@ pipeline {
                     echo "prevBuildTm: " + currentBuild.getPreviousBuild().timeInMillis.toString()
                     echo "currentBuildTm: " + currentBuild.timeInMillis.toString()
                     echo "Time diff: " + (currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis)
+                    
+                    echo "CurrBuildCause: " + currentBuild.getBuildCauses().toString()
+                    
+                    echo "CurrBuildDisplayName: " + currentBuild.displayName.toString()
+                    echo "CurrBuildDescription: " + currentBuild.description.toString()
 
                     weeklyBuildEnabled = false;
                     if (
