@@ -171,6 +171,8 @@ pipeline {
             steps {
                 dir('.') {
 //                    input message: 'Whahaha'
+                    C_TEXT = "Weekly Build: " + C_TEXT
+                    currentBuild.setDescription(C_TEXT)
                     Cargo86_64cov('no32')
                 }
             }
