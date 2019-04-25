@@ -159,7 +159,10 @@ pipeline {
             when {
                 allOf {
                     triggeredBy 'TimerTrigger'
-                    environment name: 'weeklyBuildEnabled', value: 'true'
+                    //~ environment name: 'weeklyBuildEnabled', value: 'true'
+                    expression { return weeklyBuildEnabled }
+                    //~ equals expected: true, actual: weeklyBuildEnabled
+                    //~ equals expected: 2, actual: currentBuild.number
                 }
             }
 
