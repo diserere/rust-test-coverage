@@ -50,8 +50,8 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
-//    triggers { cron('H/5 * * * *') }
-    triggers { cron('H/10 * * * *') }
+    triggers { cron('H/5 * * * *') }
+    //~ triggers { cron('H/15 * * * *') }
     //~ triggers { pollSCM('H/10 * * * *') }
 //    triggers { cron('TZ=Europe/Moscow\n H/5 * * * *') }
 //    triggers {cron '''
@@ -100,7 +100,7 @@ pipeline {
                     weeklyBuildEnabled = false;
                     if (
                         currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
-                        currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis < 600000 
+                        currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis < 300000 
                         ) {
                             weeklyBuildEnabled = true
                         }
