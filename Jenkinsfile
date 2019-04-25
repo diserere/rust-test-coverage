@@ -11,6 +11,8 @@ C_COMMITER = "NotSet"
 C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
+weeklyBuildEnabled = "NotSet"
+
 //FEATURES_LIST = nodead main detailed
 //FEATURES_LIST = ''
 //~ FEATURES_LIST = 'nodead '
