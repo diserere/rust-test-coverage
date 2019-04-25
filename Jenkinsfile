@@ -11,12 +11,13 @@ C_COMMITER = "NotSet"
 C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
-weeklyBuildEnabled = "NotSet"
+//~ weeklyBuildEnabled = "NotSet"
 
 //FEATURES_LIST = nodead main detailed
 //FEATURES_LIST = ''
-//~ FEATURES_LIST = 'nodead '
-FEATURES_LIST = 'detailed '
+FEATURES_LIST = 'nodead '
+//~ FEATURES_LIST = 'nodead pass'
+//~ FEATURES_LIST = 'detailed '
 //~ FEATURES_LIST = 'main '
 // build_features = "--features 'nodead main detailed' "
 build_features = "--features '${FEATURES_LIST}' "
