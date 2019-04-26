@@ -133,7 +133,8 @@ pipeline {
                         }
                     
                     echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
-                    if ( !weeklyBuildEnabled ) {
+                    if ( !curBuildCauseFiltered.toString().equals("[]") &&
+                        !weeklyBuildEnabled ) {
                         build.doStop()
                     }
 
