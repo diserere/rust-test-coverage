@@ -144,6 +144,7 @@ pipeline {
                             if (autoCancelled) {
                                 currentBuild.result = 'SUCCESS'
                             }
+                        }
                             
                         //~ currentBuild.result = 'ABORTED'
                         currentBuild.result = 'SUCCESS'
