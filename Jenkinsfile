@@ -136,7 +136,8 @@ pipeline {
                     if ( !curBuildCauseFiltered.toString().equals("[]") &&
                         !weeklyBuildEnabled ) {
                         build.doStop()
-                        currentBuild.result = 'ABORTED'
+                        //~ currentBuild.result = 'ABORTED'
+                        currentBuild.result = 'SUCCESS'
                         //~ autoCancelled = true
                         //~ return
                     }
