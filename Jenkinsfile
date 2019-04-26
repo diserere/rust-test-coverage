@@ -105,9 +105,12 @@ pipeline {
                     prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
                     echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
                     
-                    if ( prevBuildCauseFiltered.toString().equals("[]") ) {
+                    if ( !prevBuildCauseFiltered.toString().equals("[]") ) {
                         echo "prevBuildCauseFiltered Yes"
+                    } else {
+                        echo "prevBuildCauseFiltered No"
                     }
+                        
                     
                     echo "curBuildDisplayName: " + currentBuild.displayName.toString()
                     echo "curBuildDescription: " + currentBuild.description.toString()
