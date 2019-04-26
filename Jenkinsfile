@@ -100,11 +100,17 @@ pipeline {
                     echo "currentBuildTm: " + currentBuild.timeInMillis.toString()
                     echo "Time diff: " + (currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis)
                     
-                    echo "CurrBuildCause: " + currentBuild.getBuildCauses().toString()
-                    echo "CurrBuildCauseFiltered: " + currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').toString()
+                    echo "curBuildCause: " + currentBuild.getBuildCauses().toString()
+                    echo "curBuildCauseFiltered: " + currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').toString()
+                    prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
                     
-                    echo "CurrBuildDisplayName: " + currentBuild.displayName.toString()
-                    echo "CurrBuildDescription: " + currentBuild.description.toString()
+                    if prevBuildCauseFiltered {
+                        echo "prevBuildCauseFiltered Yes"
+                    }
+                    
+                    echo "curBuildDisplayName: " + currentBuild.displayName.toString()
+                    echo "curBuildDescription: " + currentBuild.description.toString()
 
                     weeklyBuildEnabled = false;
                     if (
