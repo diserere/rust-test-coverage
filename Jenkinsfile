@@ -53,7 +53,9 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
-    triggers { cron('H/5 * * * *') }
+    //~ triggers { cron('H/5 * * * *') }
+    upstream 'rust-test-coverage-runner'
+
     //~ triggers { cron('H/15 * * * *') }
     //~ triggers { pollSCM('H/10 * * * *') }
 //    triggers { cron('TZ=Europe/Moscow\n H/5 * * * *') }
@@ -102,8 +104,13 @@ pipeline {
                     
                     echo "curBuildCause: " + currentBuild.getBuildCauses().toString()
                     echo "curBuildCauseFiltered: " + currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause').toString()
-                    prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+
+                    prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
+                    curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
+
                     echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
+                    echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
                     
                     if ( !prevBuildCauseFiltered.toString().equals("[]") ) {
                         echo "prevBuildCauseFiltered Yes"
@@ -117,13 +124,18 @@ pipeline {
 
                     weeklyBuildEnabled = false;
                     if (
-                        currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
-                        currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis < 300000 
+                            currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
+                            //~ currentBuild.timeInMillis - currentBuild.getPreviousBuild().timeInMillis < 300000 
+                            !curBuildCauseFiltered.toString().equals("[]") &&
+                            prevBuildCauseFiltered.toString().equals("[]")
                         ) {
                             weeklyBuildEnabled = true
                         }
                     
                     echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+                    if ( !weeklyBuildEnabled ) {
+                        build.doStop()
+                    }
 
                     //C_descr = "Nightly build: " + currentBuild.description.toString()
                     //echo C_descr
@@ -169,9 +181,12 @@ pipeline {
 
             when {
                 allOf {
-                    triggeredBy 'TimerTrigger'
+                    //~ triggeredBy 'TimerTrigger'
+                    //~ expression { return weeklyBuildEnabled }
+                    
+                    triggeredBy 'UpstreamCause'
+                    
                     //~ environment name: 'weeklyBuildEnabled', value: 'true'
-                    expression { return weeklyBuildEnabled }
                     //~ equals expected: true, actual: weeklyBuildEnabled
                     //~ equals expected: 2, actual: currentBuild.number
                 }
