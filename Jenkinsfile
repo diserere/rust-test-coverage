@@ -136,6 +136,9 @@ pipeline {
                     if ( !curBuildCauseFiltered.toString().equals("[]") &&
                         !weeklyBuildEnabled ) {
                         build.doStop()
+                        currentBuild.result = 'ABORTED'
+                        //~ autoCancelled = true
+                        //~ return
                     }
 
                     //C_descr = "Nightly build: " + currentBuild.description.toString()
