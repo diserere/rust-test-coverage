@@ -51,6 +51,7 @@ def Cargo86_64cov(bits) {
 DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9mL1dTvDelyzPylSHZaciNqHi9m3AyhkHX9XAN5wUbp7QHOUkqqg_34FKw"
 
 echo "curBuildCause out of: " + currentBuild.getBuildCauses().toString()
+return
 
 pipeline {
 
