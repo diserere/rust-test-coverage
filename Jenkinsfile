@@ -54,7 +54,7 @@ pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
     //~ triggers { cron('H/5 * * * *') }
-    upstream 'rust-test-coverage-runner'
+    triggers { upstream 'rust-test-coverage-runner' }
 
     //~ triggers { cron('H/15 * * * *') }
     //~ triggers { pollSCM('H/10 * * * *') }
