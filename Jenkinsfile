@@ -50,8 +50,38 @@ def Cargo86_64cov(bits) {
 //DiscordURL = "https://discordapp.com/api/webhooks/496992026932543489/4exQIw18D4U_4T0H76bS3Voui4SyD7yCQzLP9IRQHKpwGRJK1-IFnyZLyYzDmcBKFTJw"
 DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9mL1dTvDelyzPylSHZaciNqHi9m3AyhkHX9XAN5wUbp7QHOUkqqg_34FKw"
 
-echo "curBuildCause out of: " + currentBuild.getBuildCauses().toString()
-return
+
+prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
+curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
+echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
+echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
+
+weeklyBuildEnabled = false;
+if (
+        currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
+        !curBuildCauseFiltered.toString().equals("[]") &&
+        prevBuildCauseFiltered.toString().equals("[]")
+    ) {
+        weeklyBuildEnabled = true
+    }
+echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+
+if ( !curBuildCauseFiltered.toString().equals("[]") &&
+    !weeklyBuildEnabled ) {
+    //~ try {
+        //~ autoCancelled = true
+        //~ build.doStop()
+    //~ } catch (e) {
+        //~ if (autoCancelled) {
+            currentBuild.setDescription("Weekly build as aborted due to no changes since last run")
+            currentBuild.result = 'SUCCESS'
+        //~ }
+        return
+    }
+        
+
+
+//~ echo "curBuildCause out of: " + currentBuild.getBuildCauses().toString()
 
 pipeline {
 
