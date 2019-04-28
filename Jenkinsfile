@@ -73,7 +73,7 @@ if ( !curBuildCauseFiltered.toString().equals("[]") &&
         //~ build.doStop()
     //~ } catch (e) {
         //~ if (autoCancelled) {
-            currentBuild.setDescription("Weekly build as aborted due to no changes since last run")
+            currentBuild.setDescription("WEEKLY BUILD: aborted due to no changes since last run")
             //~ currentBuild.result = 'SUCCESS'
             currentBuild.result = 'ABORTED'
         //~ }
@@ -88,7 +88,9 @@ pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
     //~ triggers { cron('H/5 * * * *') }
-    triggers { upstream 'rust-test-coverage-runner' }
+
+    triggers { cron('H/2 * * * *') }
+    //~ triggers { upstream 'rust-test-coverage-runner' }
 
     //~ triggers { cron('H/15 * * * *') }
     //~ triggers { pollSCM('H/10 * * * *') }
@@ -130,7 +132,7 @@ pipeline {
                     C_PROJECT = G_giturl.substring(15,G_giturl.length()-4)
                     C_GITURL = sh (script: 'echo ${GIT_URL}',returnStdout: true).trim()
                     C_GITCOMMIT = sh (script: 'echo ${GIT_COMMIT}',returnStdout: true).trim()
-                    
+/*                    
                     echo "prevBuildRes: " + currentBuild.getPreviousBuild().result
                     echo "prevBuildTm: " + currentBuild.getPreviousBuild().timeInMillis.toString()
                     echo "currentBuildTm: " + currentBuild.timeInMillis.toString()
@@ -187,7 +189,7 @@ pipeline {
                     //C_descr = "Nightly build: " + currentBuild.description.toString()
                     //echo C_descr
                     //currentBuild.getPreviousBuild().getDescription()
-
+*/
                     sh 'echo "Try to find cargo..."'
                     sh 'which cargo'
                 }
@@ -228,10 +230,10 @@ pipeline {
 
             when {
                 allOf {
-                    //~ triggeredBy 'TimerTrigger'
-                    //~ expression { return weeklyBuildEnabled }
+                    triggeredBy 'TimerTrigger'
+                    expression { return weeklyBuildEnabled }
                     
-                    triggeredBy 'UpstreamCause'
+                    //~ triggeredBy 'UpstreamCause'
                     
                     //~ environment name: 'weeklyBuildEnabled', value: 'true'
                     //~ equals expected: true, actual: weeklyBuildEnabled
@@ -244,7 +246,7 @@ pipeline {
                 dir('.') {
 //                    input message: 'Whahaha'
                     script {
-                        C_TEXT = "Weekly Build: " + C_TEXT
+                        C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
                         currentBuild.setDescription(C_TEXT)
                         echo C_TEXT
                     }
