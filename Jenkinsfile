@@ -74,7 +74,8 @@ if ( !curBuildCauseFiltered.toString().equals("[]") &&
     //~ } catch (e) {
         //~ if (autoCancelled) {
             currentBuild.setDescription("Weekly build as aborted due to no changes since last run")
-            currentBuild.result = 'SUCCESS'
+            //~ currentBuild.result = 'SUCCESS'
+            currentBuild.result = 'ABORTED'
         //~ }
         return
     }
