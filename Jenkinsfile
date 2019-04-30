@@ -150,7 +150,12 @@ pipeline {
                     ]])
                     G_gitbranch = sh (script: 'echo ${BRANCH_NAME}', returnStdout: true).trim()
 
-                    C_TEXT = sh (script: 'git show -s --format=%s ${GIT_COMMIT}',returnStdout: true).trim()
+                    if ( weeklyBuildEnabled ) {
+                        C_TEXT = "Weekly kcov build: use commit " + C_HASH
+                        echo "C_TEXT: " + C_TEXT
+                    } else {
+                        C_TEXT = sh (script: 'git show -s --format=%s ${GIT_COMMIT}',returnStdout: true).trim()
+                    }
                     C_AUTHOR = sh (script: 'git show -s --format=%an ${GIT_COMMIT}',returnStdout: true).trim()
                     C_COMMITER = sh (script: 'git show -s --format=%cn ${GIT_COMMIT}',returnStdout: true).trim()
                     C_HASH = sh (script: 'git show -s --format=%h ${GIT_COMMIT}',returnStdout: true).trim()
@@ -333,10 +338,6 @@ pipeline {
     post {
         always {
             script {
-                if ( weeklyBuildEnabled ) {
-                    C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
-                    echo "C_TEXT: " + C_TEXT
-                }
                 currentBuild.description = C_TEXT
                 string DiscordFooter = "Build duration is " + currentBuild.durationString
                 DiscordTitle = "Job ${JOB_NAME} from GitHub " + C_PROJECT
