@@ -150,15 +150,15 @@ pipeline {
                     ]])
                     G_gitbranch = sh (script: 'echo ${BRANCH_NAME}', returnStdout: true).trim()
 
+                    C_AUTHOR = sh (script: 'git show -s --format=%an ${GIT_COMMIT}',returnStdout: true).trim()
+                    C_COMMITER = sh (script: 'git show -s --format=%cn ${GIT_COMMIT}',returnStdout: true).trim()
+                    C_HASH = sh (script: 'git show -s --format=%h ${GIT_COMMIT}',returnStdout: true).trim()
                     if ( weeklyBuildEnabled ) {
                         C_TEXT = "Weekly kcov build: use commit " + C_HASH
                         echo "C_TEXT: " + C_TEXT
                     } else {
                         C_TEXT = sh (script: 'git show -s --format=%s ${GIT_COMMIT}',returnStdout: true).trim()
                     }
-                    C_AUTHOR = sh (script: 'git show -s --format=%an ${GIT_COMMIT}',returnStdout: true).trim()
-                    C_COMMITER = sh (script: 'git show -s --format=%cn ${GIT_COMMIT}',returnStdout: true).trim()
-                    C_HASH = sh (script: 'git show -s --format=%h ${GIT_COMMIT}',returnStdout: true).trim()
                     C_PROJECT = G_giturl.substring(15,G_giturl.length()-4)
                     C_GITURL = sh (script: 'echo ${GIT_URL}',returnStdout: true).trim()
                     C_GITCOMMIT = sh (script: 'echo ${GIT_COMMIT}',returnStdout: true).trim()
