@@ -53,12 +53,21 @@ DiscordURL = "https://discordapp.com/api/webhooks/558405801392209920/QJb6F6yJTu9
 
 echo 'currentBuild.getBuildCauses(): ' + currentBuild.getBuildCauses()
 
+def isBuildTimerTriggered(build) {
+    buildCauseFiltered = build.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+    !buildCauseFiltered.toString().equals("[]") 
+}
+
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
 //~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
 prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
 curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
 echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
 echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
+
+echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
+echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
+
 
 weeklyBuildEnabled = false;
 if (
