@@ -86,17 +86,11 @@ if (
     }
 echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
-if ( !curBuildCauseFiltered.toString().equals("[]") &&
+//~ if ( !curBuildCauseFiltered.toString().equals("[]") &&
+if ( isBuildTimerTriggered(currentBuild) &&
     !weeklyBuildEnabled ) {
-    //~ try {
-        //~ autoCancelled = true
-        //~ build.doStop()
-    //~ } catch (e) {
-        //~ if (autoCancelled) {
-            currentBuild.setDescription("WEEKLY BUILD: aborted due to no changes since last run")
-            //~ currentBuild.result = 'SUCCESS'
-            currentBuild.result = 'ABORTED'
-        //~ }
+        currentBuild.setDescription("WEEKLY BUILD: aborted due to no changes since last run")
+        currentBuild.result = 'ABORTED'
         return
     }
         
