@@ -89,7 +89,7 @@ if (
 echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
 /* Abort build if it is timer-triggered but flag is not set */
-if ( isBuildTimerTriggered(currentBuild) {
+if ( isBuildTimerTriggered(currentBuild) ) {
     if ( weeklyBuildEnabled ) {
         C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
         echo "C_TEXT: " + C_TEXT
