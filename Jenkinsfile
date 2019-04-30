@@ -93,7 +93,8 @@ if ( isBuildTimerTriggered(currentBuild) ) {
     if ( !weeklyBuildEnabled ) {
         echo 'Aborting build...'
         currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
-        currentBuild.result = 'ABORTED'
+//        currentBuild.result = 'ABORTED'
+        currentBuild.result = 'SUCCESS'
         return
     }
 }
@@ -112,8 +113,8 @@ pipeline {
 //    triggers { cron('H */4 * * 1-5') }
     //~ triggers { cron('H/5 * * * *') }
 
-    //~ triggers { cron('H/2 * * * *') }
-    triggers { cron('H H/6 * * *') }
+    triggers { cron('H/2 * * * *') }
+    //~ triggers { cron('H H/6 * * *') }
     //~ triggers { cron('H H(0-5) * * 6') }
     //~ triggers { upstream 'rust-test-coverage-runner' }
 
