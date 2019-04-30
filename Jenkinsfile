@@ -89,14 +89,24 @@ if (
 echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
 /* Abort build if it is timer-triggered but flag is not set */
-if ( isBuildTimerTriggered(currentBuild) &&
-    !weeklyBuildEnabled ) {
+if ( isBuildTimerTriggered(currentBuild) {
+    if ( weeklyBuildEnabled ) {
+        C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
+        echo "C_TEXT: " + C_TEXT
+        currentBuild.setDescription(C_TEXT)
+    } else {
         echo 'Aborting build...'
         currentBuild.setDescription("WEEKLY BUILD: aborted due to no changes since last run")
         currentBuild.result = 'ABORTED'
         return
     }
+}
         
+                    //~ script {
+                        //~ C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
+                        //~ currentBuild.setDescription(C_TEXT)
+                        //~ echo C_TEXT
+                    //~ }
 
 
 //~ echo "curBuildCause out of: " + currentBuild.getBuildCauses().toString()
@@ -106,8 +116,8 @@ pipeline {
 //    triggers { cron('H */4 * * 1-5') }
     //~ triggers { cron('H/5 * * * *') }
 
-    //~ triggers { cron('H/2 * * * *') }
-    triggers { cron('H H/6 * * *') }
+    triggers { cron('H/2 * * * *') }
+    //~ triggers { cron('H H/6 * * *') }
     //~ triggers { cron('H H(0-5) * * 6') }
     //~ triggers { upstream 'rust-test-coverage-runner' }
 
@@ -264,11 +274,6 @@ pipeline {
             steps {
                 dir('.') {
 //                    input message: 'Whahaha'
-                    script {
-                        C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
-                        currentBuild.setDescription(C_TEXT)
-                        echo C_TEXT
-                    }
                     Cargo86_64cov('no32')
                 }
             }
