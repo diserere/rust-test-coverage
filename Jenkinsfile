@@ -90,13 +90,9 @@ echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
 /* Abort build if it is timer-triggered but flag is not set */
 if ( isBuildTimerTriggered(currentBuild) ) {
-    if ( weeklyBuildEnabled ) {
-        C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
-        echo "C_TEXT: " + C_TEXT
-        currentBuild.setDescription(C_TEXT)
-    } else {
+    if ( !weeklyBuildEnabled ) {
         echo 'Aborting build...'
-        currentBuild.setDescription("WEEKLY BUILD: aborted due to no changes since last run")
+        currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
         currentBuild.result = 'ABORTED'
         return
     }
@@ -337,6 +333,10 @@ pipeline {
     post {
         always {
             script {
+                if ( weeklyBuildEnabled ) {
+                    C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
+                    echo "C_TEXT: " + C_TEXT
+                }
                 currentBuild.description = C_TEXT
                 string DiscordFooter = "Build duration is " + currentBuild.durationString
                 DiscordTitle = "Job ${JOB_NAME} from GitHub " + C_PROJECT
