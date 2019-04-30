@@ -69,28 +69,29 @@ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigge
 echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
 echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
 
+
+
+/* Set flag for weekly build if current build is timer-triggered, and
+ * previous build was successful and was not timer-triggered
+ * (means there were SCM changes after last weekly build) 
+ */
 echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
 echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
-
 echo 'isBuildSuccessed(currentBuild.getPreviousBuild()): ' + isBuildSuccessed(currentBuild.getPreviousBuild())
-
-
 weeklyBuildEnabled = false;
 if (
-        //~ currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
-        //~ !curBuildCauseFiltered.toString().equals("[]") &&
-        //~ prevBuildCauseFiltered.toString().equals("[]")
     isBuildTimerTriggered(currentBuild) &&
-    !isBuildTimerTriggered(currentBuild.getPreviousBuild()) &&
-    isBuildSuccessed(currentBuild.getPreviousBuild())
-    ) {
-        weeklyBuildEnabled = true
-    }
+    isBuildSuccessed(currentBuild.getPreviousBuild()) &&
+    !isBuildTimerTriggered(currentBuild.getPreviousBuild())
+) {
+    weeklyBuildEnabled = true
+}
 echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
-//~ if ( !curBuildCauseFiltered.toString().equals("[]") &&
+/* Abort build if it is timer-triggered but flag is not set */
 if ( isBuildTimerTriggered(currentBuild) &&
     !weeklyBuildEnabled ) {
+        echo 'Aborting build...'
         currentBuild.setDescription("WEEKLY BUILD: aborted due to no changes since last run")
         currentBuild.result = 'ABORTED'
         return
