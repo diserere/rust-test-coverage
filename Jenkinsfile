@@ -80,7 +80,7 @@ if (
         //~ prevBuildCauseFiltered.toString().equals("[]")
     isBuildTimerTriggered(currentBuild) &&
     !isBuildTimerTriggered(currentBuild.getPreviousBuild()) &&
-    isBuildSuccessed(currentBuild.getPreviousBuild()) &&
+    isBuildSuccessed(currentBuild.getPreviousBuild())
     ) {
         weeklyBuildEnabled = true
     }
