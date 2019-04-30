@@ -72,6 +72,8 @@ echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
 echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
 echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
 
+echo 'isBuildSuccessed(currentBuild.getPreviousBuild()): ' + isBuildSuccessed(currentBuild.getPreviousBuild())
+
 
 weeklyBuildEnabled = false;
 if (
