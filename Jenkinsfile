@@ -93,8 +93,8 @@ if ( isBuildTimerTriggered(currentBuild) ) {
     if ( !weeklyBuildEnabled ) {
         echo 'Aborting build...'
         currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
-//        currentBuild.result = 'ABORTED'
-        currentBuild.result = 'SUCCESS'
+        currentBuild.result = 'ABORTED'
+//        currentBuild.result = 'SUCCESS'
         return
     }
 }
