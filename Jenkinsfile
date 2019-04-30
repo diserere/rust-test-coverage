@@ -58,6 +58,10 @@ def isBuildTimerTriggered(build) {
     !buildCauseFiltered.toString().equals("[]") 
 }
 
+def isBuildSuccessed(build) {
+    build.result.toString().equals("SUCCESS")
+}
+
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
 //~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
 prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
@@ -71,9 +75,12 @@ echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTr
 
 weeklyBuildEnabled = false;
 if (
-        currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
-        !curBuildCauseFiltered.toString().equals("[]") &&
-        prevBuildCauseFiltered.toString().equals("[]")
+        //~ currentBuild.getPreviousBuild().result.toString().equals("SUCCESS") && 
+        //~ !curBuildCauseFiltered.toString().equals("[]") &&
+        //~ prevBuildCauseFiltered.toString().equals("[]")
+    isBuildTimerTriggered(currentBuild) &&
+    !isBuildTimerTriggered(currentBuild.getPreviousBuild()) &&
+    isBuildSuccessed(currentBuild.getPreviousBuild()) &&
     ) {
         weeklyBuildEnabled = true
     }
@@ -100,9 +107,9 @@ if ( !curBuildCauseFiltered.toString().equals("[]") &&
 pipeline {
 
 //    triggers { cron('H */4 * * 1-5') }
-    triggers { cron('H/5 * * * *') }
+    //~ triggers { cron('H/5 * * * *') }
 
-    //~ triggers { cron('H/2 * * * *') }
+    triggers { cron('H/2 * * * *') }
     //~ triggers { cron('H H/6 * * *') }
     //~ triggers { upstream 'rust-test-coverage-runner' }
 
