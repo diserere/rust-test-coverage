@@ -62,6 +62,17 @@ def isBuildSuccessed(build) {
     build.result.toString().equals("SUCCESS")
 }
 
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+//      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/my-org/my-repo"],
+//      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+//      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
+
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
 //~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
 prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
@@ -95,6 +106,7 @@ if ( isBuildTimerTriggered(currentBuild) ) {
         currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
         currentBuild.result = 'ABORTED'
 //        currentBuild.result = 'SUCCESS'
+        setBuildStatus("Build aborted due to no changes", "SUCCESS");
         return
     }
 }
@@ -113,8 +125,8 @@ pipeline {
 //    triggers { cron('H */4 * * 1-5') }
     //~ triggers { cron('H/5 * * * *') }
 
-    //~ triggers { cron('H/2 * * * *') }
-    triggers { cron('H H/6 * * *') }
+    triggers { cron('H/2 * * * *') }
+    //~ triggers { cron('H H/6 * * *') }
     //~ triggers { cron('H H(0-5) * * 6') }
     //~ triggers { upstream 'rust-test-coverage-runner' }
 
