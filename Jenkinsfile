@@ -269,14 +269,15 @@ pipeline {
                             currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
                             currentBuild.result = 'ABORTED'
                     //        currentBuild.result = 'SUCCESS'
-                            //try {
+                            try {
                                 error("Manually aborted due to no changes")
                                 //~ sh 'might fail'
-                            //} catch (err) {
-                                //echo "Caught: ${err}"
+                            } catch (err) {
+                                echo "Caught: ${err}"
+                                currentBuild.result = 'ABORTED'
                                 ////~ currentBuild.result = 'FAILURE'
                                 //setBuildStatus("Build aborted due to no changes", "SUCCESS");
-                            //}
+                            }
                             
                             //~ return
                         }
