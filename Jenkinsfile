@@ -74,31 +74,31 @@ void setBuildStatus(String message, String state) {
 }
 
 
-//////~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
-//////~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
-////prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
-////curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
-////echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
-////echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
+//~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
+//~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
+prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
+echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
 
 
 
-/////* Set flag for weekly build if current build is timer-triggered, and
- ////* previous build was successful and was not timer-triggered
- ////* (means there were SCM changes after last weekly build) 
- ////*/
-////echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
-////echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
-////echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
-////weeklyBuildEnabled = false;
-////if (
-    ////isBuildTimerTriggered(currentBuild) &&
-    ////isBuildSucceed(currentBuild.getPreviousBuild()) &&
-    ////!isBuildTimerTriggered(currentBuild.getPreviousBuild())
-////) {
-    ////weeklyBuildEnabled = true
-////}
-////echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+/* Set flag for weekly build if current build is timer-triggered, and
+ * previous build was successful and was not timer-triggered
+ * (means there were SCM changes after last weekly build) 
+ */
+echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
+echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
+echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
+weeklyBuildEnabled = false;
+if (
+    isBuildTimerTriggered(currentBuild) &&
+    isBuildSucceed(currentBuild.getPreviousBuild()) &&
+    !isBuildTimerTriggered(currentBuild.getPreviousBuild())
+) {
+    weeklyBuildEnabled = true
+}
+echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
 /////* Abort build if it is timer-triggered but flag is not set */
 ////if ( isBuildTimerTriggered(currentBuild) ) {
@@ -238,29 +238,29 @@ pipeline {
                     sh 'which cargo'
                     
 /* New */
-                    prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
-                    curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
-                    echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
-                    echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
+                    ////prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    ////curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    ////echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
+                    ////echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
 
 
 
-                    /* Set flag for weekly build if current build is timer-triggered, and
-                     * previous build was successful and was not timer-triggered
-                     * (means there were SCM changes after last weekly build) 
-                     */
-                    echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
-                    echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
-                    echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
-                    weeklyBuildEnabled = false;
-                    if (
-                        isBuildTimerTriggered(currentBuild) &&
-                        isBuildSucceed(currentBuild.getPreviousBuild()) &&
-                        !isBuildTimerTriggered(currentBuild.getPreviousBuild())
-                    ) {
-                        weeklyBuildEnabled = true
-                    }
-                    echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+                    /////* Set flag for weekly build if current build is timer-triggered, and
+                     ////* previous build was successful and was not timer-triggered
+                     ////* (means there were SCM changes after last weekly build) 
+                     ////*/
+                    ////echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
+                    ////echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
+                    ////echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
+                    ////weeklyBuildEnabled = false;
+                    ////if (
+                        ////isBuildTimerTriggered(currentBuild) &&
+                        ////isBuildSucceed(currentBuild.getPreviousBuild()) &&
+                        ////!isBuildTimerTriggered(currentBuild.getPreviousBuild())
+                    ////) {
+                        ////weeklyBuildEnabled = true
+                    ////}
+                    ////echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
                     /* Abort build if it is timer-triggered but flag is not set */
                     if ( isBuildTimerTriggered(currentBuild) ) {
