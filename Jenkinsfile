@@ -58,7 +58,7 @@ def isBuildTimerTriggered(build) {
     !buildCauseFiltered.toString().equals("[]") 
 }
 
-def isBuildSuccessed(build) {
+def isBuildSucceed(build) {
     build.result.toString().equals("SUCCESS")
 }
 
@@ -89,11 +89,11 @@ echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
  */
 echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
 echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
-echo 'isBuildSuccessed(currentBuild.getPreviousBuild()): ' + isBuildSuccessed(currentBuild.getPreviousBuild())
+echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
 weeklyBuildEnabled = false;
 if (
     isBuildTimerTriggered(currentBuild) &&
-    isBuildSuccessed(currentBuild.getPreviousBuild()) &&
+    isBuildSucceed(currentBuild.getPreviousBuild()) &&
     !isBuildTimerTriggered(currentBuild.getPreviousBuild())
 ) {
     weeklyBuildEnabled = true
