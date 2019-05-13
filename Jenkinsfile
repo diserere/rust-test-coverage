@@ -74,43 +74,43 @@ void setBuildStatus(String message, String state) {
 }
 
 
-//~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
-//~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
-prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
-curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
-echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
-echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
+//////~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
+//////~ curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.model.Cause$UpstreamCause')
+////prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+////curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+////echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
+////echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
 
 
 
-/* Set flag for weekly build if current build is timer-triggered, and
- * previous build was successful and was not timer-triggered
- * (means there were SCM changes after last weekly build) 
- */
-echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
-echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
-echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
-weeklyBuildEnabled = false;
-if (
-    isBuildTimerTriggered(currentBuild) &&
-    isBuildSucceed(currentBuild.getPreviousBuild()) &&
-    !isBuildTimerTriggered(currentBuild.getPreviousBuild())
-) {
-    weeklyBuildEnabled = true
-}
-echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+/////* Set flag for weekly build if current build is timer-triggered, and
+ ////* previous build was successful and was not timer-triggered
+ ////* (means there were SCM changes after last weekly build) 
+ ////*/
+////echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
+////echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
+////echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
+////weeklyBuildEnabled = false;
+////if (
+    ////isBuildTimerTriggered(currentBuild) &&
+    ////isBuildSucceed(currentBuild.getPreviousBuild()) &&
+    ////!isBuildTimerTriggered(currentBuild.getPreviousBuild())
+////) {
+    ////weeklyBuildEnabled = true
+////}
+////echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
 
-/* Abort build if it is timer-triggered but flag is not set */
-if ( isBuildTimerTriggered(currentBuild) ) {
-    if ( !weeklyBuildEnabled ) {
-        echo 'Aborting build...'
-        currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
-        currentBuild.result = 'ABORTED'
-//        currentBuild.result = 'SUCCESS'
-        setBuildStatus("Build aborted due to no changes", "SUCCESS");
-        return
-    }
-}
+/////* Abort build if it is timer-triggered but flag is not set */
+////if ( isBuildTimerTriggered(currentBuild) ) {
+    ////if ( !weeklyBuildEnabled ) {
+        ////echo 'Aborting build...'
+        ////currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
+        ////currentBuild.result = 'ABORTED'
+//////        currentBuild.result = 'SUCCESS'
+        ////setBuildStatus("Build aborted due to no changes", "SUCCESS");
+        ////return
+    ////}
+////}
         
                     //~ script {
                         //~ C_TEXT = "WEEKLY BUILD: code coverage against commit " + C_HASH + " commented '" + C_TEXT + "'"
@@ -236,6 +236,53 @@ pipeline {
 */
                     sh 'echo "Try to find cargo..."'
                     sh 'which cargo'
+                    
+/* New */
+                    prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    curBuildCauseFiltered = currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause')
+                    echo "prevBuildCauseFiltered: " + prevBuildCauseFiltered.toString()
+                    echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
+
+
+
+                    /* Set flag for weekly build if current build is timer-triggered, and
+                     * previous build was successful and was not timer-triggered
+                     * (means there were SCM changes after last weekly build) 
+                     */
+                    echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
+                    echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
+                    echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
+                    weeklyBuildEnabled = false;
+                    if (
+                        isBuildTimerTriggered(currentBuild) &&
+                        isBuildSucceed(currentBuild.getPreviousBuild()) &&
+                        !isBuildTimerTriggered(currentBuild.getPreviousBuild())
+                    ) {
+                        weeklyBuildEnabled = true
+                    }
+                    echo 'weeklyBuildEnabled = ' + weeklyBuildEnabled
+
+                    /* Abort build if it is timer-triggered but flag is not set */
+                    if ( isBuildTimerTriggered(currentBuild) ) {
+                        if ( !weeklyBuildEnabled ) {
+                            echo 'Aborting build...'
+                            currentBuild.setDescription("Weekly kcov build: aborted due to no changes since last run")
+                            currentBuild.result = 'ABORTED'
+                    //        currentBuild.result = 'SUCCESS'
+                            try {
+                                error("Manually aborted due to no changes")
+                                //~ sh 'might fail'
+                            } catch (err) {
+                                echo "Caught: ${err}"
+                                //~ currentBuild.result = 'FAILURE'
+                                setBuildStatus("Build aborted due to no changes", "SUCCESS");
+                            }
+                            
+                            //~ return
+                        }
+                    }
+
+                    
                 }
             }
         }
