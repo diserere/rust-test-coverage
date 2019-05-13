@@ -272,10 +272,10 @@ pipeline {
                             try {
                                 error("Manually aborted due to no changes")
                                 //~ sh 'might fail'
-                            } catch (err) {
-                                echo "Caught: ${err}"
-                                //~ currentBuild.result = 'FAILURE'
-                                setBuildStatus("Build aborted due to no changes", "SUCCESS");
+                            //} catch (err) {
+                                //echo "Caught: ${err}"
+                                ////~ currentBuild.result = 'FAILURE'
+                                //setBuildStatus("Build aborted due to no changes", "SUCCESS");
                             }
                             
                             //~ return
