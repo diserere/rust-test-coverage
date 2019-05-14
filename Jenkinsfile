@@ -351,10 +351,11 @@ pipeline {
         stage('setTrigger') {
             
             when {
-                not {
+                //~ not {
                     //~ triggeredBy 'SCMTrigger'
-                    triggeredBy 'TimerTrigger'
-                }
+                    //~ triggeredBy 'TimerTrigger'
+                    triggeredBy 'BranchEventCause'
+                //~ }
             }
             
             steps {
