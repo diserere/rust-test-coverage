@@ -80,7 +80,7 @@ void setBuildStatus(String message, String state) {
 
 def triggers = []
 if (isBuildSCMTriggered(currentBuild)) {
-    triggers << cron('H/3 * * * *') // every 3 minutes
+    triggers << cron('H/2 * * * *') // every 2 minutes
 }
 
 def setTriggers(triggers) {
@@ -92,6 +92,8 @@ def setTriggers(triggers) {
 }
 
 echo 'triggers: ' + triggers
+echo 'Setting triggers..'
+setTriggers(triggers)
 
 
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
@@ -311,9 +313,9 @@ pipeline {
                     }
                     
 
-                    echo 'triggers: ' + triggers
-                    echo 'Setting triggers..'
-                    setTriggers(triggers)
+                    //~ echo 'triggers: ' + triggers
+                    //~ echo 'Setting triggers..'
+                    //~ setTriggers(triggers)
 
                     
                 }
