@@ -78,22 +78,22 @@ void setBuildStatus(String message, String state) {
   ]);
 }
 
-def triggers = []
+def kcovTrigger = []
 if (isBuildSCMTriggered(currentBuild)) {
-    triggers << cron('H/2 * * * *') // every 2 minutes
+    kcovTrigger << cron('H/2 * * * *') // every 2 minutes
 }
 
-def setTriggers(triggers) {
+def setTriggers(trigger) {
     properties (
         [
-            pipelineTriggers(triggers)
+            echo 'Setting pipelineTriggers: ' + trigger
+            pipelineTriggers(trigger)
         ]
     )
 }
 
-echo 'triggers: ' + triggers
-echo 'Setting triggers..'
-setTriggers(triggers)
+echo 'kcovTrigger out of ppl: ' + kcovTrigger
+setTriggers(kcovTrigger)
 
 
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
@@ -313,9 +313,9 @@ pipeline {
                     }
                     
 
-                    //~ echo 'triggers: ' + triggers
+                    echo 'kcovTrigger in ppl: ' + kcovTrigger
                     //~ echo 'Setting triggers..'
-                    //~ setTriggers(triggers)
+                    setTriggers(kcovTrigger)
 
                     
                 }
