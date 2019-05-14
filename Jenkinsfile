@@ -105,6 +105,7 @@ echo "curBuildCauseFiltered: " + curBuildCauseFiltered.toString()
  * (means there were SCM changes after last weekly build) 
  */
 echo 'isBuildTimerTriggered(currentBuild): ' + isBuildTimerTriggered(currentBuild)
+echo 'isBuildSCMTriggered(currentBuild): ' + isBuildSCMTriggered(currentBuild)
 echo 'isBuildTimerTriggered(currentBuild.getPreviousBuild()): ' + isBuildTimerTriggered(currentBuild.getPreviousBuild())
 echo 'isBuildSucceed(currentBuild.getPreviousBuild()): ' + isBuildSucceed(currentBuild.getPreviousBuild())
 weeklyBuildEnabled = false;
