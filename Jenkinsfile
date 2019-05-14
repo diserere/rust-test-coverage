@@ -274,13 +274,14 @@ pipeline {
                                 //~ sh 'might fail'
                             } catch (err) {
                                 echo "Caught: ${err}"
-                                //~ currentBuild.result = 'ABORTED'
-                                currentBuild.result = 'SUCCESS'
+                                currentBuild.result = 'ABORTED'
+                                //~ currentBuild.result = 'SUCCESS'
                                 ////~ currentBuild.result = 'FAILURE'
-                                //setBuildStatus("Build aborted due to no changes", "SUCCESS");
+                                setBuildStatus("Build aborted due to no changes", "SUCCESS");
                             }
                             
                             //~ return
+                            throw err
                         }
                     }
 
