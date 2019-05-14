@@ -58,6 +58,11 @@ def isBuildTimerTriggered(build) {
     !buildCauseFiltered.toString().equals("[]") 
 }
 
+def isBuildSCMTriggered(build) {
+    buildCauseFiltered = build.getBuildCauses('jenkins.branch.BranchEventCause')
+    !buildCauseFiltered.toString().equals("[]") 
+}
+
 def isBuildSucceed(build) {
     build.result.toString().equals("SUCCESS")
 }
@@ -72,6 +77,18 @@ void setBuildStatus(String message, String state) {
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
 }
+
+def triggers = []
+if (isBuildSCMTriggered(currentBuild)) {
+    triggers << cron('H/3 * * * *') // every 3 minutes
+}
+
+properties (
+    [
+        pipelineTriggers(triggers)
+    ]
+)
+
 
 
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
@@ -286,8 +303,6 @@ pipeline {
                             
                             //~ //return
                             //~ throw err
-                        //~ } else {
-                            //~ triggers { cron('H/2 * * * *') }
                         }
                     }
 
@@ -302,10 +317,7 @@ pipeline {
                 Cargo86_64build('no32')
             }
             post {
-                success {
-                    script{G_buildstatus = "success"}
-                    triggers { cron('H/2 * * * *') }
-                }
+                success {script{G_buildstatus = "success"}}
                 failure {script{G_buildstatus = "failure"}}
             }
         }
