@@ -83,13 +83,15 @@ if (isBuildSCMTriggered(currentBuild)) {
     triggers << cron('H/3 * * * *') // every 3 minutes
 }
 
-echo 'triggers: ' + triggers
-properties (
-    [
-        pipelineTriggers(triggers)
-    ]
-)
+def setTriggers(triggers) {
+    properties (
+        [
+            pipelineTriggers(triggers)
+        ]
+    )
+}
 
+echo 'triggers: ' + triggers
 
 
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
@@ -307,6 +309,11 @@ pipeline {
                             //~ throw err
                         }
                     }
+                    
+
+                    echo 'triggers: ' + triggers
+                    echo 'Setting triggers..'
+                    setTriggers(triggers)
 
                     
                 }
