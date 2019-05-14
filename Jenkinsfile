@@ -84,16 +84,16 @@ if (isBuildSCMTriggered(currentBuild)) {
 }
 
 def setTriggers(trigger) {
-    echo 'Setting pipelineTriggers: ' + trigger
     properties (
         [
             pipelineTriggers(trigger)
         ]
     )
+    echo 'Set pipelineTriggers: ' + trigger
 }
 
-echo 'kcovTrigger out of ppl: ' + kcovTrigger
-setTriggers(kcovTrigger)
+//~ echo 'kcovTrigger out of ppl: ' + kcovTrigger
+//~ setTriggers(kcovTrigger)
 
 
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
