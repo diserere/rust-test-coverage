@@ -360,7 +360,12 @@ pipeline {
             
             steps {
                 echo 'kcovTrigger in ppl: ' + kcovTrigger
-                setTriggers(kcovTrigger)
+                //~ setTriggers(kcovTrigger)
+                properties([
+                        [$class: 'GithubProjectProperty',
+                        projectUrlStr: G_gitproject],
+                        pipelineTriggers(kcovTrigger)
+                    ])
             }
         }
             
