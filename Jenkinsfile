@@ -351,7 +351,10 @@ pipeline {
         stage('setTrigger') {
             
             when {
-                triggeredBy 'SCMTrigger'
+                not {
+                    //~ triggeredBy 'SCMTrigger'
+                    triggeredBy 'TimerTrigger'
+                }
             }
             
             steps {
