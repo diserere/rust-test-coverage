@@ -83,6 +83,7 @@ if (isBuildSCMTriggered(currentBuild)) {
     triggers << cron('H/3 * * * *') // every 3 minutes
 }
 
+echo 'triggers: ' + triggers
 properties (
     [
         pipelineTriggers(triggers)
