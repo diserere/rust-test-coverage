@@ -313,11 +313,10 @@ pipeline {
                     }
                     
 
-                    echo 'kcovTrigger in ppl: ' + kcovTrigger
-                    //~ echo 'Setting triggers..'
-                    setTriggers(kcovTrigger)
+                    //~ echo 'kcovTrigger in ppl: ' + kcovTrigger
+                    //~ setTriggers(kcovTrigger)
 
-                    
+
                 }
             }
         }
@@ -348,7 +347,21 @@ pipeline {
         }
 
 //*
-        stage('Test coverage') {
+
+        stage('setTrigger') {
+            
+            when {
+                triggeredBy 'SCMTrigger'
+            }
+            
+            steps {
+                echo 'kcovTrigger in ppl: ' + kcovTrigger
+                setTriggers(kcovTrigger)
+            }
+        }
+            
+
+        stage('Kcov') {
 
             //~ when {
                 //~ triggeredBy "TimerTrigger"
