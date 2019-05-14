@@ -126,7 +126,7 @@ pipeline {
 //    triggers { cron('H */4 * * 1-5') }
     //~ triggers { cron('H/5 * * * *') }
 
-    triggers { cron('H/2 * * * *') }
+    //~ triggers { cron('H/2 * * * *') }
     //~ triggers { cron('H H/6 * * *') }
     //~ triggers { cron('H H(0-5) * * 6') }
     //~ triggers { upstream 'rust-test-coverage-runner' }
@@ -286,6 +286,8 @@ pipeline {
                             
                             //~ //return
                             //~ throw err
+                        //~ } else {
+                            //~ triggers { cron('H/2 * * * *') }
                         }
                     }
 
@@ -300,7 +302,10 @@ pipeline {
                 Cargo86_64build('no32')
             }
             post {
-                success {script{G_buildstatus = "success"}}
+                success {
+                    script{G_buildstatus = "success"}
+                    triggers { cron('H/2 * * * *') }
+                }
                 failure {script{G_buildstatus = "failure"}}
             }
         }
