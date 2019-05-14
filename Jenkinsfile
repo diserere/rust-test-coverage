@@ -84,9 +84,9 @@ if (isBuildSCMTriggered(currentBuild)) {
 }
 
 def setTriggers(trigger) {
+    echo 'Setting pipelineTriggers: ' + trigger
     properties (
         [
-            echo 'Setting pipelineTriggers: ' + trigger
             pipelineTriggers(trigger)
         ]
     )
