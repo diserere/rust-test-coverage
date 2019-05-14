@@ -270,10 +270,11 @@ pipeline {
                             //currentBuild.result = 'ABORTED'
                     //        currentBuild.result = 'SUCCESS'
                             //~ try {
-                                error("Manually aborted due to no changes")
+                                //~ error("Manually aborted due to no changes")
                                 currentBuild.result = 'ABORTED'
                                 echo 'currentBuild.result: ' + currentBuild.result
                                 setBuildStatus("Build aborted due to no changes", "SUCCESS");
+                                sh 'exit'
                                 //~ sh 'might fail'
                             //~ } catch (err) {
                                 //~ echo "Caught: ${err}"
