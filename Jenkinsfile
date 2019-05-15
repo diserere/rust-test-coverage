@@ -375,7 +375,7 @@ pipeline {
                 script {
                     
                     //~ buildProps.add(kcovTrigger)
-                    buildProps.add(cron('H/2 * * * *'))
+                    buildProps.add("cron('H/2 * * * *'"))
                     echo 'buildProps: ' + buildProps
                     
                     //~ properties([
