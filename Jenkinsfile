@@ -11,6 +11,8 @@ C_COMMITER = "NotSet"
 C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
+                    def buildProps = []
+
 //~ weeklyBuildEnabled = "NotSet"
 
 //FEATURES_LIST = nodead main detailed
@@ -82,14 +84,6 @@ def kcovTrigger = []
 if (isBuildSCMTriggered(currentBuild)) {
     kcovTrigger << cron('H/2 * * * *') // every 2 minutes
 }
-
-def buildProps = []
-buildProps.add(
-    [$class: 'GithubProjectProperty',
-    projectUrlStr: G_gitproject]
-)
-
-echo 'buildProps: ' + buildProps
 
 def setTriggers(trigger) {
     properties (
@@ -189,6 +183,13 @@ pipeline {
             steps {
                 script {
                     G_gitproject = G_giturl.substring(0,G_giturl.length()-4)
+
+                    buildProps.add(
+                        [$class: 'GithubProjectProperty',
+                        projectUrlStr: G_gitproject]
+                    )
+                    echo 'buildProps: ' + buildProps
+
                     properties([[
                         $class: 'GithubProjectProperty',
                         projectUrlStr: G_gitproject
