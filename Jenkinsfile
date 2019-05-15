@@ -87,8 +87,8 @@ if (isBuildSCMTriggered(currentBuild)) {
 def buildProps = []
 
 def setBuildProps(props) {
-    properties(props)
     echo 'Set build properties: ' + props
+    properties(props)
 }
 
 //~ echo 'kcovTrigger out of ppl: ' + kcovTrigger
@@ -187,10 +187,13 @@ pipeline {
                     )
                     echo 'buildProps: ' + buildProps
 
-                    properties([[
-                        $class: 'GithubProjectProperty',
-                        projectUrlStr: G_gitproject
-                    ]])
+                    //~ properties([[
+                        //~ $class: 'GithubProjectProperty',
+                        //~ projectUrlStr: G_gitproject
+                    //~ ]])
+                    
+                    setBuildProps(buildProps)
+                    
                     G_gitbranch = sh (script: 'echo ${BRANCH_NAME}', returnStdout: true).trim()
 
                     C_AUTHOR = sh (script: 'git show -s --format=%an ${GIT_COMMIT}',returnStdout: true).trim()
@@ -375,11 +378,14 @@ pipeline {
                     buildProps.add(cron('H/2 * * * *'))
                     echo 'buildProps: ' + buildProps
                     
-                    properties([
-                        [$class: 'GithubProjectProperty',
-                        projectUrlStr: G_gitproject],
-                        pipelineTriggers(kcovTrigger)
-                    ])
+                    //~ properties([
+                        //~ [$class: 'GithubProjectProperty',
+                        //~ projectUrlStr: G_gitproject],
+                        //~ pipelineTriggers(kcovTrigger)
+                    //~ ])
+                    
+                    setBuildProps(buildProps)
+                    
                 }
             }
         }
