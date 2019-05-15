@@ -368,10 +368,12 @@ pipeline {
                 echo 'kcovTrigger in ppl: ' + kcovTrigger
                 //~ setBuildProps(kcovTrigger)
 
-                buildProps.add(kcovTrigger)
-                echo 'buildProps: ' + buildProps
 
                 script {
+                    
+                    buildProps.add(kcovTrigger)
+                    echo 'buildProps: ' + buildProps
+                    
                     properties([
                         [$class: 'GithubProjectProperty',
                         projectUrlStr: G_gitproject],
