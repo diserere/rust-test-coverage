@@ -374,11 +374,9 @@ pipeline {
 
                 script {
                     
-                    buildProps.add(
-                        pipelineTriggers(kcovTrigger)
-                    )
+                    buildProps.add(pipelineTriggers(kcovTrigger))
                     //~ buildProps.add("cron('H/2 * * * *')")
-                    echo 'buildProps: ' + buildProps
+                    //~ echo 'buildProps: ' + buildProps
                     
                     //~ properties([
                         //~ [$class: 'GithubProjectProperty',
