@@ -11,7 +11,6 @@ C_COMMITER = "NotSet"
 C_HASH = "NotSet"
 C_TEXT = "NotSet"
 
-                    def buildProps = []
 
 //~ weeklyBuildEnabled = "NotSet"
 
@@ -85,17 +84,15 @@ if (isBuildSCMTriggered(currentBuild)) {
     kcovTrigger << cron('H/2 * * * *') // every 2 minutes
 }
 
-def setTriggers(trigger) {
-    properties (
-        [
-            pipelineTriggers(trigger)
-        ]
-    )
-    echo 'Set pipelineTriggers: ' + trigger
+def buildProps = []
+
+def setBuildProps(props) {
+    properties(props)
+    echo 'Set build properties: ' + props
 }
 
 //~ echo 'kcovTrigger out of ppl: ' + kcovTrigger
-//~ setTriggers(kcovTrigger)
+//~ setBuildProps(kcovTrigger)
 
 
 //~ prevBuildCauseFiltered = currentBuild.getPreviousBuild().getBuildCauses('hudson.model.Cause$UpstreamCause')
@@ -323,7 +320,7 @@ pipeline {
                     
 
                     //~ echo 'kcovTrigger in ppl: ' + kcovTrigger
-                    //~ setTriggers(kcovTrigger)
+                    //~ setBuildProps(kcovTrigger)
 
 
                 }
@@ -369,7 +366,11 @@ pipeline {
             
             steps {
                 echo 'kcovTrigger in ppl: ' + kcovTrigger
-                //~ setTriggers(kcovTrigger)
+                //~ setBuildProps(kcovTrigger)
+
+                buildProps.add(kcovTrigger)
+                echo 'buildProps: ' + buildProps
+
                 script {
                     properties([
                         [$class: 'GithubProjectProperty',
