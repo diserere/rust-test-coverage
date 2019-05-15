@@ -83,6 +83,14 @@ if (isBuildSCMTriggered(currentBuild)) {
     kcovTrigger << cron('H/2 * * * *') // every 2 minutes
 }
 
+def buildProps = []
+buildProps.add(
+    [$class: 'GithubProjectProperty',
+    projectUrlStr: G_gitproject]
+)
+
+echo 'buildProps: ' + buildProps
+
 def setTriggers(trigger) {
     properties (
         [
