@@ -28,7 +28,7 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
+    //~ #[ignore]
     fn test_should_fail() {
         assert!(0 == 1)
     }
