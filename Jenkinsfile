@@ -79,6 +79,7 @@ void setBuildStatus(String message, String state) {
   ]);
 }
 
+// create trigger property
 def kcovTrigger = []
 if (isBuildSCMTriggered(currentBuild)) {
     //~ kcovTrigger << cron('H/2 * * * *') // every 2 minutes
