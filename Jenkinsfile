@@ -81,7 +81,8 @@ void setBuildStatus(String message, String state) {
 
 def kcovTrigger = []
 if (isBuildSCMTriggered(currentBuild)) {
-    kcovTrigger << cron('H/2 * * * *') // every 2 minutes
+    //~ kcovTrigger << cron('H/2 * * * *') // every 2 minutes
+    kcovTrigger << cron('H H(0-5) * * 6') // once at Saturday between 00:00 - 05:59 GMT
 }
 
 def buildProps = []
